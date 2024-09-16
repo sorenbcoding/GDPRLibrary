@@ -8,7 +8,7 @@ namespace GDPRLibrary
     {
         public void Initialize(IAnalyzerConfigurationService workflowAnalyzerConfigService)
         {
-
+            workflowAnalyzerConfigService.AddRule(gdpr_cpr_check.Get());
         }
     }
 }
