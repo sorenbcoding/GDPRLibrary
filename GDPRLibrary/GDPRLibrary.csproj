@@ -4,7 +4,31 @@
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <ApplicationIcon>GDPRlibrary.ico</ApplicationIcon>
+    <Title>GDPR Workflow Analyzer Rules</Title>
+    <Authors>Søren Schytz Birk</Authors>
+    <Description>Rules for UiPath Workflow Analyzer to check project for GDPR compliance.</Description>
+    <Copyright>Søren Schytz Birk</Copyright>
+    <PackageIcon>GDPRlibrary.png</PackageIcon>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageTags>GDPR;Compliance;CPR;Security;UiPath Workflow Analyzer</PackageTags>
+    <PackageProjectUrl>https://forum.uipath.com/u/sorenb/summary</PackageProjectUrl>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="GDPRlibrary.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\..\..\Dropbox\Priv Shared Files\Opgaver\UiPath\UiPath Marketplace\GDPRlibrary.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Include="..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="UiPath.Activities.Api" Version="23.10.3" />
