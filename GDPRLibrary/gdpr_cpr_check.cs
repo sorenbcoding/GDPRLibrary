@@ -14,13 +14,13 @@ namespace GDPRLibrary
     internal static class gdpr_cpr_check
     {
         private const string RuleId = "SB-SEC-001";
-        private const string RegexKey = "cpr_in_code";
+        private const string RegexKey = "pin_in_code";
         private const string DefaultRegex = "(0[1-9]|[12]\\d|3[01])(0[1-9]|1[0-2])\\d{2}[-]?\\d{4}";
         internal static Rule<IActivityModel> Get()
         {
-            var rule = new Rule<IActivityModel>("GDPR - Check for CPR number in code.", RuleId, Inspect)
+            var rule = new Rule<IActivityModel>("GDPR - Check for Personal Identification Number in code.", RuleId, Inspect)
             {
-                RecommendationMessage = "GDPR - Checks for danish personal identification number (CPR-number) inside the code.",
+                RecommendationMessage = "GDPR - Checks for occurrences of Personal Identification Number inside the code.",
                 ErrorLevel = System.Diagnostics.TraceLevel.Error,
             };
             rule.Parameters.Add(RegexKey, new Parameter()
@@ -44,7 +44,7 @@ namespace GDPRLibrary
             {
                 messageList.Add(new InspectionMessage()
                 {
-                    Message = $"The Activity '{activityModel.DisplayName}' contains CPR-number in DisplayName!",
+                    Message = $"The Activity '{activityModel.DisplayName}' contains a Personal Identification Number in DisplayName!",
                 });
             };
 
@@ -52,7 +52,7 @@ namespace GDPRLibrary
             {
                 messageList.Add(new InspectionMessage()
                 {
-                    Message = $"Aktiviteten '{activityModel.DisplayName}' indeholder cpr-nummer i AnnotationText!",
+                    Message = $"The Activity '{activityModel.DisplayName}' contains a Personal Identification Number in AnnotationText!",
                 });
             };
 
@@ -70,7 +70,7 @@ namespace GDPRLibrary
                 {
                     messageList.Add(new InspectionMessage()
                     {
-                        Message = $"Aktiviteten '{activityModel.DisplayName}' indeholder cpr-nummer!",
+                        Message = $"The Argument '{activityModel.DisplayName}' contains a Personal Identification Number!",
                     });
                 };
             }
@@ -81,7 +81,7 @@ namespace GDPRLibrary
                 {
                     messageList.Add(new InspectionMessage()
                     {
-                        Message = $"Variablen '{variable.DisplayName}' indeholder cpr-nummer!",
+                        Message = $"The Variable '{variable.DisplayName}' contains a Personal Identification Number!",
                     });
                 };
             }
