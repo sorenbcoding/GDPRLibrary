@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using UiPath.Studio.Activities.Api;
-using UiPath.Studio.Activities.Api.Analyzer;
+﻿using System.Text.RegularExpressions;
 using UiPath.Studio.Activities.Api.Analyzer.Rules;
 using UiPath.Studio.Analyzer.Models;
 
@@ -18,14 +11,19 @@ namespace GDPRLibrary
         private const string DefaultRegex = "(0[1-9]|[12]\\d|3[01])(0[1-9]|1[0-2])\\d{2}[-]?\\d{4}";
         internal static Rule<IActivityModel> Get()
         {
-            var rule = new Rule<IActivityModel>("GDPR - Check for Personal Identification Number in code.", RuleId, Inspect)
+            var rule = new Rule<IActivityModel>("GDPR - check PIN in code.", RuleId, InspectForPIN)
             {
-                RecommendationMessage = "GDPR - Checks for occurrences of Personal Identification Number inside the code.",
+                RecommendationMessage = "GDPR:\r\nChecks for occurrences of Personal Identification Number (PIN) inside the code.\r\nThe default Regex Expression is for a Danish CPR-number.",
                 ErrorLevel = System.Diagnostics.TraceLevel.Error,
             };
-            rule.Parameters.Add(RegexKey, new Parameter()
+            rule.Parameters.Add(RegexKey, new Parameter() { 
+                DefaultValue = DefaultRegex,
+                LocalizedDisplayName = "Regex for Personal Identification Number (PIN)",
+            });
+
+            return rule;
         }
-        private static InspectionResult Inspect(IActivityModel activityModel, Rule ruleInstance)
+        private static InspectionResult InspectForPIN(IActivityModel activityModel, Rule ruleInstance)
         {
             var setRegexValue = ruleInstance.Parameters[RegexKey]?.Value;
 
