@@ -11,10 +11,11 @@ namespace GDPRLibrary
         private const string DefaultRegex = "(0[1-9]|[12]\\d|3[01])(0[1-9]|1[0-2])\\d{2}[-]?\\d{4}";
         internal static Rule<IActivityModel> Get()
         {
-            var rule = new Rule<IActivityModel>("GDPR - check PIN in code.", RuleId, InspectForPIN)
+            var rule = new Rule<IActivityModel>("GDPR check for PIN in code", RuleId, InspectForPIN)
             {
                 RecommendationMessage = "GDPR:\r\nChecks for occurrences of Personal Identification Number (PIN) inside the code.\r\nThe default Regex Expression is for a Danish CPR-number.",
                 ErrorLevel = System.Diagnostics.TraceLevel.Error,
+                DocumentationLink = "https://gdpr.eu/"
             };
             rule.Parameters.Add(RegexKey, new Parameter() { 
                 DefaultValue = DefaultRegex,
@@ -90,9 +91,9 @@ namespace GDPRLibrary
                 {
                     HasErrors = true,
                     InspectionMessages = messageList,
-                    RecommendationMessage = "Remove any Personal Identification Number from the code!",
+                    RecommendationMessage = "Remove all Personal Identification Numbers from the code!",
                     ErrorLevel = ruleInstance.ErrorLevel,
-                    DocumentationLink = ""
+                    DocumentationLink = "https://gdpr.eu/"
                 };
             }
 
