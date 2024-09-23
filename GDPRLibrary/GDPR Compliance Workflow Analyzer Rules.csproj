@@ -5,14 +5,18 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <ApplicationIcon>GDPRlibrary.ico</ApplicationIcon>
-    <Title>GDPR Workflow Analyzer Rules</Title>
+    <Title>GDPR Compliance Workflow Analyzer Rules</Title>
     <Authors>Søren Schytz Birk</Authors>
     <Description>Rules for UiPath Workflow Analyzer to check project for GDPR compliance.</Description>
     <Copyright>Søren Schytz Birk</Copyright>
     <PackageIcon>GDPRlibrary.png</PackageIcon>
     <PackageReadmeFile>README.md</PackageReadmeFile>
-    <PackageTags>GDPR;Compliance;CPR;Security;UiPath Workflow Analyzer</PackageTags>
+    <PackageTags>GDPR;Compliance;Security;UiPath Workflow Analyzer</PackageTags>
     <PackageProjectUrl>https://forum.uipath.com/u/sorenb/summary</PackageProjectUrl>
+    <PackageId>$(AssemblyName.Replace(" ","."))</PackageId>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <RepositoryUrl>https://github.com/sorenbcoding/GDPRLibrary</RepositoryUrl>
+    <PackageReleaseNotes>Initial release of the 'SB-SEC-001' rule to check for Personal Identification Number inside the code.</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
