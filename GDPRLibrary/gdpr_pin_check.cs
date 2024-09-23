@@ -11,7 +11,7 @@ using UiPath.Studio.Analyzer.Models;
 
 namespace GDPRLibrary
 {
-    internal static class gdpr_cpr_check
+    internal static class gdpr_pin_check
     {
         private const string RuleId = "SB-SEC-001";
         private const string RegexKey = "pin_in_code";
@@ -85,6 +85,23 @@ namespace GDPRLibrary
                     });
                 };
             }
+
+            if (messageList.Count > 0)
+            {
+                return new InspectionResult()
+                {
+                    HasErrors = true,
+                    InspectionMessages = messageList,
+                    RecommendationMessage = "Remove any Personal Identification Number from the code!",
+                    ErrorLevel = ruleInstance.ErrorLevel,
+                    DocumentationLink = ""
+                };
+            }
+
+            return new InspectionResult()
+            {
+                HasErrors = false
+            };
         }
     }
 }
