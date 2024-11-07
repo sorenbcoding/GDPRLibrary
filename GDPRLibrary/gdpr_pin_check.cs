@@ -2,7 +2,7 @@
 using UiPath.Studio.Activities.Api.Analyzer.Rules;
 using UiPath.Studio.Analyzer.Models;
 
-namespace GDPRLibrary
+namespace GDPR_Compliance_Workflow_Analyzer_Rules
 {
     internal static class gdpr_pin_check
     {
