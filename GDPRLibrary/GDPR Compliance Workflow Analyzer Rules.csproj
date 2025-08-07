@@ -16,8 +16,9 @@
     <PackageId>$(AssemblyName.Replace(" ","."))</PackageId>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <RepositoryUrl>https://github.com/sorenbcoding/GDPRLibrary</RepositoryUrl>
-    <PackageReleaseNotes>Initial release of the 'SB-SEC-001' rule to check for Personal Identification Number inside the code.</PackageReleaseNotes>
-    <Version>1.1.0</Version>
+    <PackageReleaseNotes>Addition of rule 'SB-SEC-002' to check for presense of the .screenshots folder in the project folder.
+Bugfixes.</PackageReleaseNotes>
+    <Version>1.1.1</Version>
   </PropertyGroup>
 
   <ItemGroup>
