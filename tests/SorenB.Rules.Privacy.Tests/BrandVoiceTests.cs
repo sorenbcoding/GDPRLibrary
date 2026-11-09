@@ -1,5 +1,6 @@
 using NSubstitute;
 using SorenB.Rules.Privacy.Rules;
+using UiPath.Studio.Activities.Api.Analyzer;
 using UiPath.Studio.Activities.Api.Analyzer.Rules;
 using UiPath.Studio.Analyzer.Models;
 using Xunit;
@@ -15,19 +16,51 @@ namespace SorenB.Rules.Privacy.Tests
 
         public void Dispose() => Directory.Delete(_projectDir, recursive: true);
 
-        public static IEnumerable<object[]> Rules() => new[]
+        /// <summary>Every rule that RegisterAnalyzerConfiguration hands to Studio.</summary>
+        public static IEnumerable<object[]> Rules()
         {
-            new object[] { PinInCodeRule.Get() },
-            new object[] { ScreenshotsFolderRule.Get() },
-        };
+            var service = Substitute.For<IAnalyzerConfigurationService>();
+            service.HasFeature(Arg.Any<string>()).Returns(true);
+
+            new RegisterAnalyzerConfiguration().Initialize(service);
+
+            var rules = service.ReceivedCalls()
+                .SelectMany(call => call.GetArguments())
+                .OfType<Rule>()
+                .Select(rule => new object[] { rule })
+                .ToList();
+            Assert.NotEmpty(rules);
+            return rules;
+        }
 
         [Theory]
         [MemberData(nameof(Rules))]
         public void Rule_metadata_follows_brand(Rule rule)
         {
             Assert.Matches("^SB-[A-Z]{3}-\\d{3}$", rule.Id);
-            Assert.Equal($"https://github.com/sorenbcoding/privacy-compliance-rules#{rule.Id.ToLowerInvariant()}", rule.DocumentationLink);
+            Assert.Equal($"https://github.com/sorenbcoding/privacy-compliance-rules/blob/main/docs/rules/{rule.Id}.md", rule.DocumentationLink);
             AssertVoice(rule.RecommendationMessage);
+        }
+
+        [Theory]
+        [MemberData(nameof(Rules))]
+        public void Every_rule_has_a_docs_page(Rule rule)
+        {
+            var page = Path.Combine(RepoRoot(), "docs", "rules", $"{rule.Id}.md");
+
+            Assert.True(File.Exists(page), $"Missing docs page for {rule.Id}: {page}. Copy docs/rules/_template.md.");
+            Assert.StartsWith($"# {rule.Id} ", File.ReadLines(page).First());
+        }
+
+        private static string RepoRoot()
+        {
+            var dir = new DirectoryInfo(AppContext.BaseDirectory);
+            while (dir is not null && !File.Exists(Path.Combine(dir.FullName, "SorenB.Rules.Privacy.sln")))
+            {
+                dir = dir.Parent;
+            }
+
+            return dir?.FullName ?? throw new InvalidOperationException("Repo root with SorenB.Rules.Privacy.sln not found.");
         }
 
         [Fact]
