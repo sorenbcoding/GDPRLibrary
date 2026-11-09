@@ -40,4 +40,8 @@ Bugfixes.</PackageReleaseNotes>
     <PackageReference Include="UiPath.Activities.Api" Version="23.10.3" />
   </ItemGroup>
 
+  <ItemGroup>
+    <InternalsVisibleTo Include="SorenB.Rules.Privacy.Tests" />
+  </ItemGroup>
+
 </Project>

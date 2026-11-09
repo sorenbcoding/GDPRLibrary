@@ -1,4 +1,3 @@
-﻿using System.Text.RegularExpressions;
 using UiPath.Studio.Activities.Api.Analyzer.Rules;
 using UiPath.Studio.Analyzer.Models;
 
@@ -6,7 +5,7 @@ namespace GDPR_Compliance_Workflow_Analyzer_Rules
 {
     internal static class folder_check_screenshots
     {
-        private const string RuleId = "SB-SEC-002";
+        internal const string RuleId = "SB-SEC-002";
         internal static Rule<IProjectModel> Get()
         {
             var rule = new Rule<IProjectModel>("GDPR check for .screenshots folder", RuleId, InspectForScreenshotsFolder)
@@ -18,7 +17,7 @@ namespace GDPR_Compliance_Workflow_Analyzer_Rules
 
             return rule;
         }
-        private static InspectionResult InspectForScreenshotsFolder(IProjectModel projectToInspect, Rule ruleInstance)
+        internal static InspectionResult InspectForScreenshotsFolder(IProjectModel projectToInspect, Rule ruleInstance)
         {
             var messageList = new List<InspectionMessage>();
 
