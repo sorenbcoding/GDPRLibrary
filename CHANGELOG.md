@@ -7,7 +7,8 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 
 ### Changed
 - **Breaking:** the package is renamed from `GDPR.Compliance.Workflow.Analyzer.Rules` to `SorenB.Rules.Privacy` (product name Privacy Compliance Rules). Rule IDs and the `pin_in_code` parameter key are unchanged. See the migration note in the README. (#3)
-- Every rule message now says what is wrong, why it matters and how to fix it. Documentation links point to the rule's README section. (#3)
+- Every rule message now says what is wrong, why it matters and how to fix it. (#3)
+- Each rule's help link opens its own page under `docs/rules/`. (#5)
 - Rules register only in Studio versions with the `WorkflowAnalyzerV4` feature. (#3)
 - `UiPath.Activities.Api` is no longer a package dependency. (#3)
 - MIT license. (#3)
