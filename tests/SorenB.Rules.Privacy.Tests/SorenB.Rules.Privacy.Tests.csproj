@@ -11,12 +11,13 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.11.1" />
     <PackageReference Include="NSubstitute" Version="5.1.0" />
+    <PackageReference Include="UiPath.Activities.Api" Version="23.10.3" />
     <PackageReference Include="xunit" Version="2.9.2" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.8.2" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\GDPRLibrary\GDPR Compliance Workflow Analyzer Rules.csproj" />
+    <ProjectReference Include="..\..\src\SorenB.Rules.Privacy\SorenB.Rules.Privacy.csproj" />
   </ItemGroup>
 
 </Project>

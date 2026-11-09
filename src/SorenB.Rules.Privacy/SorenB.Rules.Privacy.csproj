@@ -1,0 +1,32 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <PackageId>SorenB.Rules.Privacy</PackageId>
+    <RootNamespace>SorenB.Rules.Privacy</RootNamespace>
+    <AssemblyName>SorenB.Rules.Privacy</AssemblyName>
+    <Title>Privacy Compliance Rules</Title>
+    <Description>Workflow Analyzer rules that find personal data and other privacy risks (GDPR) in UiPath projects. By Søren Schytz Birk · UiPath Community MVP. Independent project, not affiliated with UiPath.</Description>
+    <PackageTags>UiPath;RPA;Workflow Analyzer;GDPR;Privacy;Compliance;Security</PackageTags>
+    <PackageIcon>icon.png</PackageIcon>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\..\branding\privacy-compliance-rules-light-128.png" Pack="true" PackagePath="icon.png" Visible="false" />
+    <None Include="..\..\README.md" Pack="true" PackagePath="" Visible="false" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Studio supplies the API at runtime; keep it out of the package's dependencies. -->
+    <PackageReference Include="UiPath.Activities.Api" Version="23.10.3" PrivateAssets="All" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="SorenB.Rules.Privacy.Tests" />
+  </ItemGroup>
+
+</Project>
