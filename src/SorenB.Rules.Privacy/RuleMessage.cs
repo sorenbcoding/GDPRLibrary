@@ -8,9 +8,9 @@ namespace SorenB.Rules.Privacy
         public static string Format(string what, string why, string fix)
             => $"{Clean(what)}. {Clean(why)}. {Clean(fix)}.";
 
-        /// <summary>Link to the rule's section in the README, e.g. #sb-sec-001.</summary>
+        /// <summary>Link to the rule's own page, e.g. docs/rules/SB-SEC-001.md.</summary>
         public static string DocumentationLink(string ruleId)
-            => $"{DocumentationBaseUrl}#{ruleId.ToLowerInvariant()}";
+            => $"{DocumentationBaseUrl}/blob/main/docs/rules/{ruleId}.md";
 
         private static string Clean(string s) => s.Trim().TrimEnd('.', '!');
     }
