@@ -1,4 +1,4 @@
-using GDPR_Compliance_Workflow_Analyzer_Rules;
+using SorenB.Rules.Privacy.Rules;
 using NSubstitute;
 using UiPath.Studio.Analyzer.Models;
 using Xunit;
@@ -25,7 +25,7 @@ namespace SorenB.Rules.Privacy.Tests
         {
             Directory.CreateDirectory(Path.Combine(_projectDir, ".screenshots"));
 
-            var result = folder_check_screenshots.InspectForScreenshotsFolder(Project(), folder_check_screenshots.Get());
+            var result = ScreenshotsFolderRule.Inspect(Project(), ScreenshotsFolderRule.Get());
 
             Assert.True(result.HasErrors);
             Assert.Single(result.InspectionMessages);
@@ -34,7 +34,7 @@ namespace SorenB.Rules.Privacy.Tests
         [Fact]
         public void No_error_without_screenshots_folder()
         {
-            var result = folder_check_screenshots.InspectForScreenshotsFolder(Project(), folder_check_screenshots.Get());
+            var result = ScreenshotsFolderRule.Inspect(Project(), ScreenshotsFolderRule.Get());
 
             Assert.False(result.HasErrors);
         }

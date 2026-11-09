@@ -15,6 +15,14 @@ Workflow Analyzer rules for UiPath Studio that check projects for personal data 
 
 `UiPath.Activities.Api` comes from the UiPath-Official feed, configured in `nuget.config`.
 
+## Layout
+
+- `src/SorenB.Rules.Privacy/`: the rule package. Each rule lives in `Rules/` and is registered in `RegisterAnalyzerConfiguration.cs`. Messages go through `RuleMessage.Format(what, why, fix)`.
+- `tests/SorenB.Rules.Privacy.Tests/`: xUnit + NSubstitute. `BrandVoiceTests` checks every rule message against the brand voice.
+- `branding/`: logo SVG + PNG. The light 128 px PNG is the package icon.
+- `Directory.Build.props`: version and shared metadata. Product identity is in the src csproj.
+- When adding a rule, also add its ID to `RULE_IDS.md`, a README reference section with anchor `#sb-xxx-nnn`, and a CHANGELOG entry.
+
 ## Facts
 
 - No CI. Rely on local build, tests and brand check, and say so in PRs.

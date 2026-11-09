@@ -1,0 +1,14 @@
+<Project>
+  <!-- Shared package metadata for every project in the repo. Product identity (PackageId, AssemblyName) lives in src/SorenB.Rules.Privacy/SorenB.Rules.Privacy.csproj. -->
+  <PropertyGroup>
+    <Version>1.1.1</Version>
+    <Authors>Søren Schytz Birk</Authors>
+    <Company>Søren Schytz Birk</Company>
+    <Copyright>© 2026 Søren Schytz Birk</Copyright>
+    <PackageProjectUrl>https://github.com/sorenbcoding/privacy-compliance-rules</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/sorenbcoding/privacy-compliance-rules</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageReleaseNotes>See CHANGELOG.md</PackageReleaseNotes>
+  </PropertyGroup>
+</Project>

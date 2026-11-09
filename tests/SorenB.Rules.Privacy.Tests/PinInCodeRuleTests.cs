@@ -1,4 +1,4 @@
-using GDPR_Compliance_Workflow_Analyzer_Rules;
+using SorenB.Rules.Privacy.Rules;
 using NSubstitute;
 using UiPath.Studio.Analyzer.Models;
 using Xunit;
@@ -42,32 +42,32 @@ namespace SorenB.Rules.Privacy.Tests
 
         private static UiPath.Studio.Activities.Api.Analyzer.Rules.Rule RuleWithRegex(string? regex)
         {
-            var rule = gdpr_pin_check.Get();
-            rule.Parameters[gdpr_pin_check.RegexKey].Value = regex;
+            var rule = PinInCodeRule.Get();
+            rule.Parameters[PinInCodeRule.RegexKey].Value = regex;
             return rule;
         }
 
         private static UiPath.Studio.Activities.Api.Analyzer.Rules.Rule DefaultRule()
-            => RuleWithRegex(gdpr_pin_check.DefaultRegex);
+            => RuleWithRegex(PinInCodeRule.DefaultRegex);
 
         [Theory]
         [InlineData(Cpr)]
         [InlineData(CprNoDash)]
         public void Finds_pin_in_display_name(string pin)
         {
-            var result = gdpr_pin_check.InspectForPIN(Activity(displayName: $"Look up {pin}"), DefaultRule());
+            var result = PinInCodeRule.Inspect(Activity(displayName: $"Look up {pin}"), DefaultRule());
 
             Assert.True(result.HasErrors);
-            Assert.Contains("DisplayName", Assert.Single(result.InspectionMessages).Message);
+            Assert.Contains("display name", Assert.Single(result.InspectionMessages).Message);
         }
 
         [Fact]
         public void Finds_pin_in_annotation()
         {
-            var result = gdpr_pin_check.InspectForPIN(Activity(annotation: $"Test with {Cpr}"), DefaultRule());
+            var result = PinInCodeRule.Inspect(Activity(annotation: $"Test with {Cpr}"), DefaultRule());
 
             Assert.True(result.HasErrors);
-            Assert.Contains("AnnotationText", Assert.Single(result.InspectionMessages).Message);
+            Assert.Contains("annotation", Assert.Single(result.InspectionMessages).Message);
         }
 
         [Fact]
@@ -75,7 +75,7 @@ namespace SorenB.Rules.Privacy.Tests
         {
             var activity = Activity(displayName: "Invoke Lookup", arguments: new[] { Argument("in_CustomerId", $"\"{Cpr}\"") });
 
-            var result = gdpr_pin_check.InspectForPIN(activity, DefaultRule());
+            var result = PinInCodeRule.Inspect(activity, DefaultRule());
 
             Assert.True(result.HasErrors);
             var message = Assert.Single(result.InspectionMessages).Message;
@@ -88,7 +88,7 @@ namespace SorenB.Rules.Privacy.Tests
         {
             var activity = Activity(variables: new[] { Variable("CustomerCpr", $"\"{Cpr}\"") });
 
-            var result = gdpr_pin_check.InspectForPIN(activity, DefaultRule());
+            var result = PinInCodeRule.Inspect(activity, DefaultRule());
 
             Assert.True(result.HasErrors);
             Assert.Contains("CustomerCpr", Assert.Single(result.InspectionMessages).Message);
@@ -103,7 +103,7 @@ namespace SorenB.Rules.Privacy.Tests
                 arguments: new[] { Argument("in_Id", Cpr) },
                 variables: new[] { Variable("id", Cpr) });
 
-            var result = gdpr_pin_check.InspectForPIN(activity, DefaultRule());
+            var result = PinInCodeRule.Inspect(activity, DefaultRule());
 
             Assert.Equal(4, result.InspectionMessages.Count);
         }
@@ -116,7 +116,7 @@ namespace SorenB.Rules.Privacy.Tests
         {
             var activity = Activity(displayName: displayName, arguments: new[] { Argument("in_Amount", "1250") });
 
-            var result = gdpr_pin_check.InspectForPIN(activity, DefaultRule());
+            var result = PinInCodeRule.Inspect(activity, DefaultRule());
 
             Assert.False(result.HasErrors);
         }
@@ -126,7 +126,7 @@ namespace SorenB.Rules.Privacy.Tests
         [InlineData("")]
         public void Empty_regex_skips_the_rule(string? regex)
         {
-            var result = gdpr_pin_check.InspectForPIN(Activity(displayName: Cpr), RuleWithRegex(regex));
+            var result = PinInCodeRule.Inspect(Activity(displayName: Cpr), RuleWithRegex(regex));
 
             Assert.False(result.HasErrors);
         }
@@ -134,10 +134,10 @@ namespace SorenB.Rules.Privacy.Tests
         [Fact]
         public void Invalid_regex_returns_one_message_instead_of_throwing()
         {
-            var result = gdpr_pin_check.InspectForPIN(Activity(displayName: Cpr), RuleWithRegex("([0-9"));
+            var result = PinInCodeRule.Inspect(Activity(displayName: Cpr), RuleWithRegex("([0-9"));
 
             Assert.True(result.HasErrors);
-            Assert.Contains(gdpr_pin_check.RegexKey, Assert.Single(result.InspectionMessages).Message);
+            Assert.Contains(PinInCodeRule.RegexKey, Assert.Single(result.InspectionMessages).Message);
         }
 
         [Fact]
@@ -148,7 +148,7 @@ namespace SorenB.Rules.Privacy.Tests
             activity.Arguments.Returns((List<IArgumentModel>)null!);
             activity.Variables.Returns((List<IVariableModel>)null!);
 
-            var result = gdpr_pin_check.InspectForPIN(activity, DefaultRule());
+            var result = PinInCodeRule.Inspect(activity, DefaultRule());
 
             Assert.False(result.HasErrors);
         }

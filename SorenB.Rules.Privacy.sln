@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.11.35303.130
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GDPR Compliance Workflow Analyzer Rules", "GDPRLibrary\GDPR Compliance Workflow Analyzer Rules.csproj", "{460F5929-C088-43B5-A564-715C7954AD60}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SorenB.Rules.Privacy", "src\SorenB.Rules.Privacy\SorenB.Rules.Privacy.csproj", "{460F5929-C088-43B5-A564-715C7954AD60}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{0AB3BF05-4346-4AA6-1389-037BE0695223}"
 EndProject
