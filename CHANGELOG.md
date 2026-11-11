@@ -15,6 +15,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 - MIT license. (#3)
 
 ### Fixed
+- `SB-SEC-002` messages no longer say the `.screenshots` folder can end up in the published package; Studio leaves it out. (#13)
 - `SB-SEC-002` reads the project's `.gitignore` when the project is not in a git repo, so the `.gitignore` Studio creates is respected. (#11)
 - Both rules now set their default severity (Error) in `DefaultErrorLevel`, as the SDK requires. Before, they set the runtime `ErrorLevel`, which left the default at Off. (#7)
 - `SB-SEC-001` no longer throws when the `pin_in_code` parameter is empty; it skips the check. (#1)

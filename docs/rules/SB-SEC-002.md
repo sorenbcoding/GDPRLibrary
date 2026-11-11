@@ -22,13 +22,13 @@ An enforced Workflow Analyzer blocks publishing only on errors, so a git-ignored
 
 ## Why it matters
 
-Studio stores screenshots of the target applications there, which can show personal data.
-- **Not ignored:** the folder can be committed to source control.
-- **Ignored:** the folder stays out of source control, but it can still be included when the project is published.
+Studio stores screenshots of the target applications there, which can show personal data. Studio leaves the folder out of the published package, so the risk is source control:
+- **Not ignored:** the folder can be committed to source control, where everyone with access to the repository can see it.
+- **Ignored:** the folder stays on the developer's PC only.
 
 ## How to fix
 
-Add the folder to `.gitignore`, and delete it before you publish:
+Add the folder to `.gitignore`, and delete it when you no longer need the screenshots:
 
 ```
 .screenshots/
@@ -63,13 +63,13 @@ No parameters.
 Not ignored (Error):
 
 ```
-Folder .screenshots exists in project folder 'C:\Projects\InvoiceProcessing'. Studio stores screenshots of the target applications there, which can show personal data, and the folder can end up in source control and in the published package. Delete the .screenshots folder and add it to .gitignore.
+Folder .screenshots exists in project folder 'C:\Projects\InvoiceProcessing'. Studio stores screenshots of the target applications there, which can show personal data, and the folder can be committed to source control. Delete the .screenshots folder and add it to .gitignore.
 ```
 
 Ignored (Warning):
 
 ```
-Folder .screenshots exists in project folder 'C:\Projects\InvoiceProcessing' and is ignored by .gitignore. The screenshots stay out of source control but can still be included when the project is published. Delete the .screenshots folder before you publish.
+Folder .screenshots exists in project folder 'C:\Projects\InvoiceProcessing' and is ignored by .gitignore. The screenshots stay out of source control and out of the published package, but they remain on this PC. Delete the .screenshots folder when you no longer need the screenshots.
 ```
 
 ---
