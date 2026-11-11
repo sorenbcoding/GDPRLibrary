@@ -98,13 +98,21 @@ namespace SorenB.Rules.Privacy.Tests
             var invalid = PinInCodeRule.Get();
             invalid.Parameters[PinInCodeRule.RegexKey].Value = "([0-9";
 
+            // SB-SEC-002 twice: not in a repo (Error), then in a repo that ignores the folder (Warning).
+            var screenshotsNotIgnored = ScreenshotsFolderRule.Inspect(project, ScreenshotsFolderRule.Get()).InspectionMessages;
+            Directory.CreateDirectory(Path.Combine(_projectDir, ".git"));
+            File.WriteAllText(Path.Combine(_projectDir, ".gitignore"), ".screenshots/");
+            var screenshotsIgnored = ScreenshotsFolderRule.Inspect(project, ScreenshotsFolderRule.Get()).InspectionMessages;
+
             var messages = PinInCodeRule.Inspect(activity, configured).InspectionMessages
                 .Concat(PinInCodeRule.Inspect(activity, invalid).InspectionMessages)
-                .Concat(ScreenshotsFolderRule.Inspect(project, ScreenshotsFolderRule.Get()).InspectionMessages)
+                .Concat(screenshotsNotIgnored)
+                .Concat(screenshotsIgnored)
                 .Select(m => m.Message)
                 .ToList();
 
-            Assert.Equal(6, messages.Count);
+            Assert.Equal(7, messages.Count);
+            Assert.Contains(messages, m => m.Contains("is ignored by .gitignore"));
             Assert.All(messages, AssertVoice);
         }
 
