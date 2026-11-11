@@ -9,5 +9,6 @@ One registry shared across all SorenB rule packages. Never reuse or renumber an 
 | SB-SEC-003 | Personal data in log message | SorenB.Rules.Privacy | active | 2.1.0 |
 | SB-SEC-004 | Personal data in queue item | SorenB.Rules.Privacy | active | 2.1.0 |
 | SB-SEC-005 | Call to service outside approved regions | SorenB.Rules.Privacy | active | 2.1.0 |
+| SB-SEC-006 | Password or secret in workflow | SorenB.Rules.Privacy | active | 2.1.0 |
 
 Area codes: NMG naming · SEC security and privacy · DBP design best practice · PRR project rules · USG usage
