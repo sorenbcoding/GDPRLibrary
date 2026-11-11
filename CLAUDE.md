@@ -35,4 +35,9 @@ Workflow Analyzer rules for UiPath Studio that check projects for personal data 
 - Rule IDs are `SB-<AREA>-<NNN>`. Privacy and security rules use `SB-SEC-`. Never reuse or renumber an ID.
 - Rule inspect methods are `internal` and tested via `InternalsVisibleTo`, with NSubstitute fakes for the UiPath model interfaces.
 - Keep rule severity at `Error` for privacy rules so an enforced Workflow Analyzer blocks publishing.
-- No releases or tags yet. Releases need the user's go-ahead.
+- Releases need the user's go-ahead. The process:
+  - Version in `Directory.Build.props`.
+  - Annotated tags `vX.Y.Z` on `main`.
+  - A GitHub release with the `.nupkg` attached, built with `dotnet pack src/SorenB.Rules.Privacy/SorenB.Rules.Privacy.csproj -c Release -o <dir>`.
+  - Publishing to NuGet.org or the Marketplace is done by the user.
+- Studio test packages are prereleases (`-p:Version=X.Y.Z-preview.N`), so they never share a version number with a real release in Studio's package cache.

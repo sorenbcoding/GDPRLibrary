@@ -1,7 +1,7 @@
 <Project>
   <!-- Shared package metadata for every project in the repo. Product identity (PackageId, AssemblyName) lives in src/SorenB.Rules.Privacy/SorenB.Rules.Privacy.csproj. -->
   <PropertyGroup>
-    <Version>1.1.1</Version>
+    <Version>2.0.0</Version>
     <Authors>Søren Schytz Birk</Authors>
     <Company>Søren Schytz Birk</Company>
     <Copyright>© 2026 Søren Schytz Birk</Copyright>
