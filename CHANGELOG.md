@@ -5,8 +5,10 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 
 ## [Unreleased]
 
+## [2.0.0] - 2026-11-11
+
 ### Changed
-- **Breaking:** the package is renamed from `GDPR.Compliance.Workflow.Analyzer.Rules` to `SorenB.Rules.Privacy` (product name Privacy Compliance Rules). Rule IDs and the `pin_in_code` parameter key are unchanged. See the migration note in the README. (#3)
+- **Breaking:** the package is renamed from `GDPR.Compliance.Workflow.Analyzer.Rules` to `SorenB.Rules.Privacy` (product name Privacy Compliance Rules). Rule IDs and the `pin_in_code` parameter key are unchanged. See [Upgrade from 1.x to 2.0](https://github.com/sorenbcoding/privacy-compliance-rules/blob/main/docs/migrate-to-2.0.md). (#3)
 - Every rule message now says what is wrong, why it matters and how to fix it. (#3)
 - Each rule's help link opens its own page under `docs/rules/`. (#5)
 - `SB-SEC-002` reports a Warning instead of an Error when the `.screenshots` folder is ignored by git, so it no longer blocks publishing in that case. It reads `.git/info/exclude` and the `.gitignore` files without needing the git CLI. (#9)
