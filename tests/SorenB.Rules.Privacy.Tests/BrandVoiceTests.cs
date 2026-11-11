@@ -42,6 +42,17 @@ namespace SorenB.Rules.Privacy.Tests
             AssertVoice(rule.RecommendationMessage);
         }
 
+        /// <summary>
+        /// Privacy rules default to Error so an enforced Workflow Analyzer blocks publishing.
+        /// The SDK reads the default from DefaultErrorLevel; ErrorLevel is the runtime value and must not be set when defining a rule.
+        /// </summary>
+        [Theory]
+        [MemberData(nameof(Rules))]
+        public void Every_rule_defaults_to_error(Rule rule)
+        {
+            Assert.Equal(System.Diagnostics.TraceLevel.Error, rule.DefaultErrorLevel);
+        }
+
         [Theory]
         [MemberData(nameof(Rules))]
         public void Every_rule_has_a_docs_page(Rule rule)

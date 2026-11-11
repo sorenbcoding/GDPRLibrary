@@ -32,7 +32,7 @@ namespace SorenB.Rules.Privacy.Rules
                     what: "A workflow contains a personal identification number (PIN), by default a Danish CPR number",
                     why: StoredInPackage + ", where everyone with access can read it",
                     fix: "Remove the number and read it at runtime from a queue item, an Orchestrator asset or another secure source"),
-                ErrorLevel = TraceLevel.Error,
+                DefaultErrorLevel = TraceLevel.Error,
                 DocumentationLink = RuleMessage.DocumentationLink(RuleId)
             };
             rule.Parameters.Add(RegexKey, new Parameter()
