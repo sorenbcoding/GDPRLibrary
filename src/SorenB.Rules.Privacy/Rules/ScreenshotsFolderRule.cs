@@ -11,7 +11,8 @@ namespace SorenB.Rules.Privacy.Rules
         internal const string RuleId = "SB-SEC-002";
         internal const string FolderName = ".screenshots";
 
-        private const string Why = "Studio stores screenshots of the target applications there, which can show personal data, and the folder can end up in source control and in the published package";
+        // Studio leaves .screenshots out of the published package (verified in Studio), so the risk is source control.
+        private const string Why = "Studio stores screenshots of the target applications there, which can show personal data, and the folder can be committed to source control";
 
         internal static Rule<IProjectModel> Get()
         {
@@ -20,7 +21,7 @@ namespace SorenB.Rules.Privacy.Rules
                 RecommendationMessage = RuleMessage.Format(
                     what: $"The project folder contains a {FolderName} folder",
                     why: Why,
-                    fix: $"Delete the {FolderName} folder before you publish, and exclude it from source control"),
+                    fix: $"Add the {FolderName} folder to .gitignore, and delete it when you no longer need the screenshots"),
                 DefaultErrorLevel = TraceLevel.Error,
                 DocumentationLink = RuleMessage.DocumentationLink(RuleId)
             };
@@ -47,8 +48,8 @@ namespace SorenB.Rules.Privacy.Rules
             var message = ignored
                 ? RuleMessage.Format(
                     what: $"Folder {FolderName} exists in project folder '{project.Directory}' and is ignored by .gitignore",
-                    why: "The screenshots stay out of source control but can still be included when the project is published",
-                    fix: $"Delete the {FolderName} folder before you publish")
+                    why: "The screenshots stay out of source control and out of the published package, but they remain on this PC",
+                    fix: $"Delete the {FolderName} folder when you no longer need the screenshots")
                 : RuleMessage.Format(
                     what: $"Folder {FolderName} exists in project folder '{project.Directory}'",
                     why: Why,
