@@ -7,6 +7,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 
 ### Added
 - `SB-SEC-003` Personal data in log message: finds names that point to personal data, and CPR numbers, in `Log Message`, `Write Line` and `Add Log Fields`. The name list and ignore list are parameters. (#16)
+- `SB-SEC-004` Personal data in queue item: finds personal data in the `Reference`, `ItemInformation` fields and item collection of `Add Queue Item`, `Add Transaction Item` and `Bulk Add Queue Items`. Shares its parameters with `SB-SEC-003`. (#17)
 
 ## [2.0.0] - 2026-11-11
 
