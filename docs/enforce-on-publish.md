@@ -1,6 +1,6 @@
 # Enforce the rules on publish
 
-All Privacy Compliance Rules default to severity **Error**. When the Workflow Analyzer is enforced before publish, a project that breaks a rule cannot be published to Orchestrator.
+All Privacy Compliance Rules default to severity **Error**. When the Workflow Analyzer is enforced before publish, a project with an error cannot be published to Orchestrator. Warnings don't block publishing. For example, [`SB-SEC-002`](https://github.com/sorenbcoding/privacy-compliance-rules/blob/main/docs/rules/SB-SEC-002.md) reports only a warning when the `.screenshots` folder is git-ignored.
 
 ## Automation Cloud (Automation Ops)
 

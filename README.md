@@ -17,7 +17,7 @@ Package ID: `SorenB.Rules.Privacy`. Built against `UiPath.Activities.Api` 23.10.
 | Project dependency | One project | Add the folder or feed that holds the `.nupkg` as a package source, then install `SorenB.Rules.Privacy` in **Manage Packages**. |
 | Custom rules location | Every project in Studio | Extract `lib/net6.0/SorenB.Rules.Privacy.dll` from the `.nupkg` into the folder set in **Home > Settings > Locations > Custom Workflow Analyzer rules location**, then restart Studio. |
 
-All rules default to severity Error. If the Workflow Analyzer is enforced on publish, a project that breaks a rule can't be published. See [Enforce the rules on publish](https://github.com/sorenbcoding/privacy-compliance-rules/blob/main/docs/enforce-on-publish.md).
+All rules default to severity Error. If the Workflow Analyzer is enforced on publish, a project with an error can't be published. See [Enforce the rules on publish](https://github.com/sorenbcoding/privacy-compliance-rules/blob/main/docs/enforce-on-publish.md).
 
 Upgrading from `GDPR.Compliance.Workflow.Analyzer.Rules`? See [Upgrade from 1.x to 2.0](https://github.com/sorenbcoding/privacy-compliance-rules/blob/main/docs/migrate-to-2.0.md).
 
@@ -34,7 +34,7 @@ SB-SEC-001  Variable 'CustomerId' has a personal identification number in its de
 | ID | Title | Scope | Default severity |
 | --- | --- | --- | --- |
 | [`SB-SEC-001`](https://github.com/sorenbcoding/privacy-compliance-rules/blob/main/docs/rules/SB-SEC-001.md) | Personal identification number in workflow | Activity | Error |
-| [`SB-SEC-002`](https://github.com/sorenbcoding/privacy-compliance-rules/blob/main/docs/rules/SB-SEC-002.md) | Screenshots folder in project | Project | Error |
+| [`SB-SEC-002`](https://github.com/sorenbcoding/privacy-compliance-rules/blob/main/docs/rules/SB-SEC-002.md) | Screenshots folder in project | Project | Error (Warning if git-ignored) |
 
 Each rule's help link in Studio opens its page.
 
