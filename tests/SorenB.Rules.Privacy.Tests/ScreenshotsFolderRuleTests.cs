@@ -56,7 +56,7 @@ namespace SorenB.Rules.Privacy.Tests
         }
 
         [Fact]
-        public void Error_when_not_in_a_git_repo()
+        public void Error_when_not_in_a_repo_and_not_ignored()
         {
             AddScreenshots();
 
@@ -65,6 +65,32 @@ namespace SorenB.Rules.Privacy.Tests
             Assert.True(result.HasErrors);
             Assert.Equal(TraceLevel.Error, result.ErrorLevel);
             Assert.Contains("add it to .gitignore", Assert.Single(result.InspectionMessages).Message);
+        }
+
+        /// <summary>The .gitignore Studio adds to every new project, with or without git (#11).</summary>
+        [Theory]
+        [InlineData(".screenshots")]
+        [InlineData(".screenshots/")]
+        public void Warning_when_not_in_a_repo_but_project_gitignore_lists_it(string entry)
+        {
+            File.WriteAllLines(Path.Combine(_projectDir, ".gitignore"), new[]
+            {
+                "################################################################################",
+                "# Added by UiPath Studio",
+                "# Prevent caching and local artifacts from being committed",
+                "################################################################################",
+                ".local",
+                entry,
+                "################################################################################",
+                "# End of UiPath Studio common ignores",
+                "################################################################################",
+            });
+            AddScreenshots();
+
+            var result = ScreenshotsFolderRule.Inspect(Project(), Configured());
+
+            Assert.Equal(TraceLevel.Warning, result.ErrorLevel);
+            Assert.Contains("is ignored by .gitignore", Assert.Single(result.InspectionMessages).Message);
         }
 
         [Fact]

@@ -14,8 +14,8 @@ This rule reports a `.screenshots` folder in the project folder. The severity de
 
 | Situation | Severity |
 | --- | --- |
-| `.screenshots` present, not ignored, or the project is not in a git repo | The configured level (default Error) |
-| `.screenshots` present and ignored by git | Warning, or the configured level if that is lower |
+| `.screenshots` present and not listed in any `.gitignore` | The configured level (default Error) |
+| `.screenshots` present and listed in `.gitignore` | Warning, or the configured level if that is lower |
 | No `.screenshots` folder | No result |
 
 An enforced Workflow Analyzer blocks publishing only on errors, so a git-ignored folder does not block publishing.
@@ -36,9 +36,12 @@ Add the folder to `.gitignore`, and delete it before you publish:
 
 ## How the rule decides "ignored"
 
-The rule reads the ignore files itself, so it works on PCs without the git CLI. It reads:
-- `.git/info/exclude`
-- every `.gitignore` from the repo root down to the project folder
+The rule reads the ignore files itself, so it works on PCs without the git CLI. What it reads depends on whether the project is in a git repo:
+
+- **In a git repo** (a `.git` folder in the project folder or above it):
+  - `.git/info/exclude`
+  - every `.gitignore` from the repo root down to the project folder
+- **Not in a git repo:** the `.gitignore` in the project folder. Studio adds one to every new project, and it already lists `.screenshots`. Git applies it as soon as the project is put under source control.
 
 The usual syntax works:
 - comments

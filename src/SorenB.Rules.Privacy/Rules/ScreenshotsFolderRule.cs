@@ -39,8 +39,10 @@ namespace SorenB.Rules.Privacy.Rules
                 return new InspectionResult() { HasErrors = false };
             }
 
-            var repoRoot = GitIgnore.FindRepoRoot(project.Directory);
-            var ignored = repoRoot is not null && GitIgnore.IsIgnored(repoRoot, folder, isDirectory: true);
+            // Without a repo, read the project's own .gitignore: Studio adds one to every project,
+            // and git applies it as soon as the project is put under source control.
+            var root = GitIgnore.FindRepoRoot(project.Directory) ?? project.Directory;
+            var ignored = GitIgnore.IsIgnored(root, folder, isDirectory: true);
 
             var message = ignored
                 ? RuleMessage.Format(
