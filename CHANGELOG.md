@@ -5,6 +5,9 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 
 ## [Unreleased]
 
+### Added
+- `SB-SEC-003` Personal data in log message: finds names that point to personal data, and CPR numbers, in `Log Message`, `Write Line` and `Add Log Fields`. The name list and ignore list are parameters. (#16)
+
 ## [2.0.0] - 2026-11-11
 
 ### Changed
