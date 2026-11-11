@@ -10,6 +10,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 - `SB-SEC-004` Personal data in queue item: finds personal data in the `Reference`, `ItemInformation` fields and item collection of `Add Queue Item`, `Add Transaction Item` and `Bulk Add Queue Items`. Shares its parameters with `SB-SEC-003`. (#17)
 - `SB-SEC-005` Call to service outside approved regions: finds web addresses whose host is not on the `approved_domains` parameter (default `*.dk;*.eu;*.uipath.com`; intranet hosts are always approved). (#18)
 - `SB-SEC-006` Password or secret in workflow: finds passwords, API keys, tokens and connection-string passwords written into a workflow as fixed values. (#19)
+- [Recommended governance baseline](https://github.com/sorenbcoding/privacy-compliance-rules/blob/main/docs/governance-baseline.md): the Automation Ops settings, central rule parameters, `ST-USG-014` package restrictions, feed lockdown and AI Trust Layer setup that complete these rules. (#20)
 
 ## [2.0.0] - 2026-11-11
 
