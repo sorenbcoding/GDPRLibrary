@@ -20,7 +20,7 @@ namespace SorenB.Rules.Privacy.Rules
                     what: $"The project folder contains a {FolderName} folder",
                     why: Why,
                     fix: $"Delete the {FolderName} folder before you publish, and exclude it from source control"),
-                ErrorLevel = TraceLevel.Error,
+                DefaultErrorLevel = TraceLevel.Error,
                 DocumentationLink = RuleMessage.DocumentationLink(RuleId)
             };
         }

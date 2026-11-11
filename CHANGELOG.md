@@ -14,6 +14,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 - MIT license. (#3)
 
 ### Fixed
+- Both rules now set their default severity (Error) in `DefaultErrorLevel`, as the SDK requires. Before, they set the runtime `ErrorLevel`, which left the default at Off. (#7)
 - `SB-SEC-001` no longer throws when the `pin_in_code` parameter is empty; it skips the check. (#1)
 - `SB-SEC-001` reports an invalid `pin_in_code` pattern once instead of throwing for every activity. (#1)
 - `SB-SEC-001` names the argument, not the activity, when an argument holds a personal identification number. (#1)
