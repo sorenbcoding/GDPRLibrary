@@ -19,6 +19,7 @@ namespace SorenB.Rules.Privacy
             workflowAnalyzerConfigService.AddRule(LogMessagePersonalDataRule.Get());
             workflowAnalyzerConfigService.AddRule(QueueItemPersonalDataRule.Get());
             workflowAnalyzerConfigService.AddRule(ApprovedRegionsRule.Get());
+            workflowAnalyzerConfigService.AddRule(SecretInWorkflowRule.Get());
         }
     }
 }
