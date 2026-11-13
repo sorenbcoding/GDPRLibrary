@@ -23,17 +23,7 @@ namespace SorenB.Rules.Privacy.Rules
                 DefaultErrorLevel = TraceLevel.Error,
                 DocumentationLink = RuleMessage.DocumentationLink(RuleId)
             };
-            rule.Parameters.Add(PersonalDataNames.NamesKey, new Parameter
-            {
-                DefaultValue = PersonalDataNames.DefaultNames,
-                LocalizedDisplayName = PersonalDataNames.NamesDisplayName,
-            });
-            rule.Parameters.Add(PersonalDataNames.IgnoredKey, new Parameter
-            {
-                DefaultValue = PersonalDataNames.DefaultIgnored,
-                LocalizedDisplayName = PersonalDataNames.IgnoredDisplayName,
-            });
-
+            PersonalDataFinder.AddParameters(rule);
             return rule;
         }
 
@@ -47,10 +37,7 @@ namespace SorenB.Rules.Privacy.Rules
                 return RuleSupport.Passed();
             }
 
-            var names = NameList.Parse(
-                RuleSupport.ParameterValue(configuredRule, PersonalDataNames.NamesKey),
-                RuleSupport.ParameterValue(configuredRule, PersonalDataNames.IgnoredKey));
-
+            var names = PersonalDataFinder.NamesFor(configuredRule);
             var csharp = ActivityMembers.IsCSharp(activity);
             var messages = new List<string>();
             foreach (var member in ActivityMembers.All(activity))
@@ -58,7 +45,7 @@ namespace SorenB.Rules.Privacy.Rules
                 if (isAddLogFields)
                 {
                     // Every entry of Fields is a log field: its key becomes a column in Orchestrator and Insights.
-                    var keyMatch = names.Match(member.Name);
+                    var keyMatch = PersonalDataFinder.InKey(member, names);
                     if (keyMatch is not null)
                     {
                         messages.Add(RuleMessage.Format(
@@ -72,7 +59,18 @@ namespace SorenB.Rules.Privacy.Rules
                     continue;
                 }
 
-                messages.AddRange(CheckExpression(activity, member, names, csharp));
+                foreach (var finding in PersonalDataFinder.InExpression(member, names, csharp))
+                {
+                    messages.Add(finding.IsCpr
+                        ? RuleMessage.Format(
+                            what: $"Activity '{activity.DisplayName}' logs a personal identification number",
+                            why: Why,
+                            fix: "Remove the number from the log text")
+                        : RuleMessage.Format(
+                            what: $"Activity '{activity.DisplayName}' logs '{finding.Name}', which looks like personal data ({finding.ListEntry})",
+                            why: Why,
+                            fix: "Log a case key or a count instead. If the name is not about a person, add it to the ignored names"));
+                }
             }
 
             return RuleSupport.Failed(configuredRule, messages);
@@ -81,37 +79,5 @@ namespace SorenB.Rules.Privacy.Rules
         /// <summary>Log Message writes its Message, Write Line its Text. Other members (Level, DisplayName, …) are not logged text.</summary>
         private static bool IsLoggedText(Member member, bool isLogMessage)
             => string.Equals(member.Name, isLogMessage ? "Message" : "Text", StringComparison.OrdinalIgnoreCase);
-
-        private static IEnumerable<string> CheckExpression(IActivityModel activity, Member member, NameList names, bool csharp)
-        {
-            if (string.Equals(member.Name, "DisplayName", StringComparison.OrdinalIgnoreCase))
-            {
-                yield break;
-            }
-
-            // Literal text ("Processing applicant") names nothing; only an expression refers to data.
-            var usedNames = member.IsLiteral ? Array.Empty<string>() : Expression.Names(member.Expression, csharp);
-            foreach (var name in usedNames)
-            {
-                var match = names.Match(name);
-                if (match is not null)
-                {
-                    yield return RuleMessage.Format(
-                        what: $"Activity '{activity.DisplayName}' logs '{name}', which looks like personal data ({match})",
-                        why: Why,
-                        fix: "Log a case key or a count instead. If the name is not about a person, add it to the ignored names");
-                    yield break;
-                }
-            }
-
-            if (Expression.StringLiterals(member.Expression, csharp).Any(CprPattern.IsMatch)
-                || (member.IsLiteral && CprPattern.IsMatch(member.Expression)))
-            {
-                yield return RuleMessage.Format(
-                    what: $"Activity '{activity.DisplayName}' logs a personal identification number",
-                    why: Why,
-                    fix: "Remove the number from the log text");
-            }
-        }
     }
 }
