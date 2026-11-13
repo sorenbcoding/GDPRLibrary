@@ -93,6 +93,36 @@ namespace SorenB.Rules.Privacy.Tests
         }
 
         [Theory]
+        [InlineData("Save to", "Value to save")]
+        [InlineData("Gem i", "Værdi der skal gemmes")]
+        public void Flags_assign_whatever_studio_calls_the_arguments(string toName, string valueName)
+        {
+            // Studio shows Assign.To / Assign.Value as "Save to" / "Value to save", and translates them.
+            var activity = Activity(AssignType, "Assign", new[]
+            {
+                Arg(toName, "str_Kodeord", direction: ArgumentDirection.Out),
+                Arg(valueName, "\"asd\"", direction: ArgumentDirection.In),
+            });
+
+            Assert.Contains("assigns a fixed value to 'str_Kodeord'", Assert.Single(Inspect(activity)));
+        }
+
+        [Fact]
+        public void Flags_each_secret_pair_in_multiple_assign()
+        {
+            // <ui:MultipleAssign.AssignOperations><ui:AssignOperation><ui:AssignOperation.To>…<ui:AssignOperation.Value>…
+            var activity = Activity("UiPath.Core.Activities.MultipleAssign", "Multiple Assign", properties: new[]
+            {
+                Prop("AssignOperations", null,
+                    Arg("To", "str_Holdnavn", direction: ArgumentDirection.Out), Arg("Value", "\"3.a\"", direction: ArgumentDirection.In),
+                    Arg("To", "pwd", direction: ArgumentDirection.Out), Arg("Value", "\"x1\"", direction: ArgumentDirection.In),
+                    Arg("To", "apiKey", direction: ArgumentDirection.Out), Arg("Value", "GetCredential.Password", direction: ArgumentDirection.In)),
+            });
+
+            Assert.Contains("assigns a fixed value to 'pwd'", Assert.Single(Inspect(activity)));
+        }
+
+        [Theory]
         [InlineData("str_Kodeord", "GetCredential.Password")]
         [InlineData("str_TokenUrl", "\"https://login.example.dk/token\"")]
         [InlineData("str_Holdnavn", "\"3.a\"")]
