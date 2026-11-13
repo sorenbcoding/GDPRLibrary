@@ -10,6 +10,8 @@ All Privacy Compliance Rules default to severity **Error**. When the Workflow An
 
 Developers also need the rules installed, as a project dependency or in a custom rules location. See [Install](https://github.com/sorenbcoding/privacy-compliance-rules#install).
 
+For the other settings to roll out with this (central rule parameters, package restrictions, feed lockdown, AI Trust Layer), see the [recommended governance baseline](https://github.com/sorenbcoding/privacy-compliance-rules/blob/main/docs/governance-baseline.md).
+
 ## File-based governance (uipath.policies.config)
 
 | Setting | Parameter | Value |

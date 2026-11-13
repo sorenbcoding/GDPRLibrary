@@ -19,6 +19,8 @@ Package ID: `SorenB.Rules.Privacy`. Built against `UiPath.Activities.Api` 23.10.
 
 All rules default to severity Error. If the Workflow Analyzer is enforced on publish, a project with an error can't be published. See [Enforce the rules on publish](https://github.com/sorenbcoding/privacy-compliance-rules/blob/main/docs/enforce-on-publish.md).
 
+Rolling the rules out to a team? See the [recommended governance baseline](https://github.com/sorenbcoding/privacy-compliance-rules/blob/main/docs/governance-baseline.md) for the Automation Ops settings, central rule parameters and package restrictions that complete them.
+
 Upgrading from `GDPR.Compliance.Workflow.Analyzer.Rules`? See [Upgrade from 1.x to 2.0](https://github.com/sorenbcoding/privacy-compliance-rules/blob/main/docs/migrate-to-2.0.md).
 
 ## Quick example
