@@ -38,6 +38,7 @@ SB-SEC-001  Variable 'CustomerId' has a personal identification number in its de
 | [`SB-SEC-003`](https://github.com/sorenbcoding/privacy-compliance-rules/blob/main/docs/rules/SB-SEC-003.md) | Personal data in log message | Activity | Error |
 | [`SB-SEC-004`](https://github.com/sorenbcoding/privacy-compliance-rules/blob/main/docs/rules/SB-SEC-004.md) | Personal data in queue item | Activity | Error |
 | [`SB-SEC-005`](https://github.com/sorenbcoding/privacy-compliance-rules/blob/main/docs/rules/SB-SEC-005.md) | Call to service outside approved regions | Activity | Error |
+| [`SB-SEC-006`](https://github.com/sorenbcoding/privacy-compliance-rules/blob/main/docs/rules/SB-SEC-006.md) | Password or secret in workflow | Activity | Error |
 
 Each rule's help link in Studio opens its page.
 

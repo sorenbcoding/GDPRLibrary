@@ -2,8 +2,15 @@ using UiPath.Studio.Analyzer.Models;
 
 namespace SorenB.Rules.Privacy.Inspection
 {
-    /// <summary>One argument or property of an activity, flattened. Path is the dotted route, e.g. "Fields.Fornavn".</summary>
-    internal readonly record struct Member(string Path, string Name, string? Expression, bool IsLiteral);
+    /// <summary>
+    /// One argument or property of an activity, flattened. Path is the dotted route, e.g. "Fields.Fornavn".
+    /// Direction is set for arguments (In, Out, InOut) and null for properties.
+    /// </summary>
+    internal readonly record struct Member(string Path, string Name, string? Expression, bool IsLiteral, ArgumentDirection? Direction = null)
+    {
+        /// <summary>The path of the property that holds this member, e.g. "AssignOperations.AssignOperation" for a Multiple Assign pair.</summary>
+        internal string Parent => Path.Length > Name.Length && Path.EndsWith(Name, StringComparison.Ordinal) ? Path.Substring(0, Path.Length - Name.Length - 1) : string.Empty;
+    }
 
     /// <summary>
     /// Walks an activity's arguments and properties, including non-browsable and nested ones,
@@ -73,7 +80,7 @@ namespace SorenB.Rules.Privacy.Inspection
                 }
 
                 var name = argument.DisplayName ?? string.Empty;
-                yield return new Member(Join(prefix, name), name, argument.DefinedExpression, argument.HasLiteralExpression == true);
+                yield return new Member(Join(prefix, name), name, argument.DefinedExpression, argument.HasLiteralExpression == true, argument.Direction);
             }
         }
 
