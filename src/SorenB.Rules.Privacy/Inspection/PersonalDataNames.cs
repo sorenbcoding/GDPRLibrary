@@ -12,7 +12,8 @@ namespace SorenB.Rules.Privacy.Inspection
             "navn;fornavn;efternavn;mellemnavn;elevnavn;surname;" +
             "elev;studerende;kursist;ansøger;" +
             "email;telefon;telefonnummer;mobil;mobilnummer;phone;" +
-            "adresse;fødselsdato;foedselsdato;birthdate";
+            "adresse;fødselsdato;foedselsdato;birthdate;" +
+            "værge;værger;forælder;forældre;fravær;fraværs;fraværsprocent;sygefravær";
 
         /// <summary>Compounds that end in a listed word but are not about a person, e.g. Fil + Navn.</summary>
         internal const string DefaultIgnored =
