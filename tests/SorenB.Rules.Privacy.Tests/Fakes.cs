@@ -26,9 +26,10 @@ namespace SorenB.Rules.Privacy.Tests
         }
 
         /// <summary>An argument. A quoted expression ("text") is a string literal, as the model reports Literal&lt;string&gt;.</summary>
-        internal static IArgumentModel Arg(string name, string? expression, bool? isLiteral = null)
+        internal static IArgumentModel Arg(string name, string? expression, bool? isLiteral = null, ArgumentDirection direction = ArgumentDirection.Unset)
         {
             var argument = Substitute.For<IArgumentModel>();
+            argument.Direction.Returns(direction);
             argument.DisplayName.Returns(name);
             argument.DefinedExpression.Returns(expression);
             argument.HasLiteralExpression.Returns(isLiteral ?? (SorenB.Rules.Privacy.Inspection.Expression.LiteralValue(expression, false) is not null));

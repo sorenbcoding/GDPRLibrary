@@ -91,17 +91,18 @@ namespace SorenB.Rules.Privacy.Rules
                 }
             }
 
-            if (ActivityMembers.IsType(activity, "Assign"))
+            if (ActivityMembers.IsType(activity, "Assign", "MultipleAssign"))
             {
-                var to = members.FirstOrDefault(m => string.Equals(m.Name, "To", StringComparison.OrdinalIgnoreCase));
-                var value = members.FirstOrDefault(m => string.Equals(m.Name, "Value", StringComparison.OrdinalIgnoreCase));
-                var target = Expression.Names(to.Expression, csharp).FirstOrDefault(n => secretNames.Match(n) is not null);
-                if (target is not null && HasFixedValue(value, csharp))
+                foreach (var (to, value) in AssignPairs(members))
                 {
-                    messages.Add(RuleMessage.Format(
-                        what: $"Activity '{activity.DisplayName}' assigns a fixed value to '{target}', which looks like a secret ({secretNames.Match(target)})",
-                        why: Why,
-                        fix: Fix));
+                    var target = Expression.Names(to.Expression, csharp).FirstOrDefault(n => secretNames.Match(n) is not null);
+                    if (target is not null && HasFixedValue(value, csharp))
+                    {
+                        messages.Add(RuleMessage.Format(
+                            what: $"Activity '{activity.DisplayName}' assigns a fixed value to '{target}', which looks like a secret ({secretNames.Match(target)})",
+                            why: Why,
+                            fix: Fix));
+                    }
                 }
             }
 
@@ -119,6 +120,49 @@ namespace SorenB.Rules.Privacy.Rules
 
             return RuleSupport.Failed(configuredRule, messages);
         }
+
+        /// <summary>
+        /// The (target, value) pairs of an Assign or Multiple Assign. Matched by argument direction (Out = target, In = value),
+        /// because Studio shows the arguments as "Save to" / "Value to save" and translates them; the names To/Value are a fallback.
+        /// A Multiple Assign has one pair per operation, so a pair is closed as soon as both sides are seen under the same parent.
+        /// </summary>
+        private static IEnumerable<(Member To, Member Value)> AssignPairs(IEnumerable<Member> members)
+        {
+            Member? to = null;
+            Member? value = null;
+            foreach (var member in members)
+            {
+                switch (AssignRole(member))
+                {
+                    case AssignSide.Target:
+                        to = member;
+                        break;
+                    case AssignSide.Value:
+                        value = member;
+                        break;
+                    default:
+                        continue;
+                }
+
+                if (to is { } t && value is { } v && t.Parent == v.Parent)
+                {
+                    yield return (t, v);
+                    to = null;
+                    value = null;
+                }
+            }
+        }
+
+        private enum AssignSide { None, Target, Value }
+
+        private static AssignSide AssignRole(Member member) => member.Direction switch
+        {
+            ArgumentDirection.Out or ArgumentDirection.InOut => AssignSide.Target,
+            ArgumentDirection.In => AssignSide.Value,
+            _ when string.Equals(member.Name, "To", StringComparison.OrdinalIgnoreCase) => AssignSide.Target,
+            _ when string.Equals(member.Name, "Value", StringComparison.OrdinalIgnoreCase) => AssignSide.Value,
+            _ => AssignSide.None,
+        };
 
         private static bool HasFixedValue(Member member, bool csharp)
             => IsFixed(Expression.LiteralValue(member.Expression, member.IsLiteral, csharp));
