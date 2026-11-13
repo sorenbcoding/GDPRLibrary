@@ -43,7 +43,7 @@ If a name is not about a person, for example `StudieNavn` (a programme's name), 
 
 | Parameter | Key | Default |
 | --- | --- | --- |
-| Names that point to personal data | `personal_data_names` | `cpr;cprnr;cprnummer;personnummer;ssn;navn;fornavn;efternavn;mellemnavn;elevnavn;surname;elev;studerende;kursist;ansøger;email;telefon;telefonnummer;mobil;mobilnummer;phone;adresse;fødselsdato;foedselsdato;birthdate` |
+| Names that point to personal data | `personal_data_names` | `cpr;cprnr;cprnummer;personnummer;ssn;navn;fornavn;efternavn;mellemnavn;elevnavn;surname;elev;studerende;kursist;ansøger;email;telefon;telefonnummer;mobil;mobilnummer;phone;adresse;fødselsdato;foedselsdato;birthdate;værge;værger;forælder;forældre;fravær;fraværs;fraværsprocent;sygefravær` |
 | Names to ignore | `personal_data_ignored_names` | `filnavn;arknavn;mappenavn;kolonnenavn;tabelnavn;holdnavn;kursusnavn;fagnavn;uddannelsesnavn;skolenavn;afdelingsnavn;firmanavn;servernavn;værtsnavn;domænenavn;procesnavn;kønavn;assetnavn` |
 
 - Both lists are semicolon-separated and case-insensitive.

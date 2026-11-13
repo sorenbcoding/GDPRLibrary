@@ -80,6 +80,11 @@ namespace SorenB.Rules.Privacy.Tests
         [InlineData("CprNr", "cprnr")]
         [InlineData("str_Email", "email")]
         [InlineData("elevnavn", "elevnavn")]
+        [InlineData("VærgeEmail", "værge")]
+        [InlineData("dtr_Værger", "værger")]
+        [InlineData("Fravær", "fravær")]
+        [InlineData("FraværsDage", "fraværs")]
+        [InlineData("SygefraværProcent", "sygefravær")]
         public void Matches_personal_data_names(string identifier, string expected)
         {
             Assert.Equal(expected, Defaults.Match(identifier));
