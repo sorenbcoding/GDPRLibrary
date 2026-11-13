@@ -1,6 +1,5 @@
-﻿using System.Collections.Concurrent;
-using System.Diagnostics;
-using System.Text.RegularExpressions;
+﻿using System.Diagnostics;
+using SorenB.Rules.Privacy.Inspection;
 using UiPath.Studio.Activities.Api.Analyzer.Rules;
 using UiPath.Studio.Analyzer.Models;
 
@@ -15,14 +14,9 @@ namespace SorenB.Rules.Privacy.Rules
         internal const string RegexKey = "pin_in_code";
 
         /// <summary>Danish CPR number: DDMMYY, optional dash, 4 digits.</summary>
-        internal const string DefaultRegex = "(0[1-9]|[12]\\d|3[01])(0[1-9]|1[0-2])\\d{2}[-]?\\d{4}";
+        internal const string DefaultRegex = CprPattern.Pattern;
 
         private const string StoredInPackage = "Values in workflow files are stored in source control, in the published package and in Orchestrator";
-
-        private static readonly TimeSpan MatchTimeout = TimeSpan.FromSeconds(1);
-
-        // One compiled Regex per configured pattern; null marks an invalid pattern.
-        private static readonly ConcurrentDictionary<string, Regex?> RegexCache = new();
 
         internal static Rule<IActivityModel> Get()
         {
@@ -53,7 +47,7 @@ namespace SorenB.Rules.Privacy.Rules
                 return new InspectionResult() { HasErrors = false };
             }
 
-            var regex = RegexCache.GetOrAdd(pattern, CreateRegex);
+            var regex = SafeRegex.Get(pattern);
             if (regex is null)
             {
                 return Failed(configuredRule, RuleMessage.Format(
@@ -64,7 +58,7 @@ namespace SorenB.Rules.Privacy.Rules
 
             var messages = new List<string>();
 
-            if (IsMatch(regex, activity.DisplayName))
+            if (SafeRegex.IsMatch(regex, activity.DisplayName))
             {
                 messages.Add(RuleMessage.Format(
                     what: $"Activity '{activity.DisplayName}' has a personal identification number in its display name",
@@ -72,7 +66,7 @@ namespace SorenB.Rules.Privacy.Rules
                     fix: "Rename the activity without the number"));
             }
 
-            if (IsMatch(regex, activity.AnnotationText))
+            if (SafeRegex.IsMatch(regex, activity.AnnotationText))
             {
                 messages.Add(RuleMessage.Format(
                     what: $"Activity '{activity.DisplayName}' has a personal identification number in its annotation",
@@ -82,7 +76,7 @@ namespace SorenB.Rules.Privacy.Rules
 
             foreach (var argument in activity.Arguments ?? Enumerable.Empty<IArgumentModel>())
             {
-                if (IsMatch(regex, argument.DefinedExpression))
+                if (SafeRegex.IsMatch(regex, argument.DefinedExpression))
                 {
                     messages.Add(RuleMessage.Format(
                         what: $"Argument '{argument.DisplayName}' of activity '{activity.DisplayName}' has a personal identification number in its value",
@@ -93,7 +87,7 @@ namespace SorenB.Rules.Privacy.Rules
 
             foreach (var variable in activity.Variables ?? Enumerable.Empty<IVariableModel>())
             {
-                if (IsMatch(regex, variable.DefaultValue))
+                if (SafeRegex.IsMatch(regex, variable.DefaultValue))
                 {
                     messages.Add(RuleMessage.Format(
                         what: $"Variable '{variable.DisplayName}' has a personal identification number in its default value",
@@ -115,34 +109,5 @@ namespace SorenB.Rules.Privacy.Rules
             ErrorLevel = configuredRule.ErrorLevel,
             DocumentationLink = configuredRule.DocumentationLink
         };
-
-        private static Regex? CreateRegex(string pattern)
-        {
-            try
-            {
-                return new Regex(pattern, RegexOptions.Compiled | RegexOptions.CultureInvariant, MatchTimeout);
-            }
-            catch (ArgumentException)
-            {
-                return null;
-            }
-        }
-
-        private static bool IsMatch(Regex regex, string? value)
-        {
-            if (string.IsNullOrEmpty(value))
-            {
-                return false;
-            }
-
-            try
-            {
-                return regex.IsMatch(value);
-            }
-            catch (RegexMatchTimeoutException)
-            {
-                return false;
-            }
-        }
     }
 }

@@ -35,6 +35,7 @@ SB-SEC-001  Variable 'CustomerId' has a personal identification number in its de
 | --- | --- | --- | --- |
 | [`SB-SEC-001`](https://github.com/sorenbcoding/privacy-compliance-rules/blob/main/docs/rules/SB-SEC-001.md) | Personal identification number in workflow | Activity | Error |
 | [`SB-SEC-002`](https://github.com/sorenbcoding/privacy-compliance-rules/blob/main/docs/rules/SB-SEC-002.md) | Screenshots folder in project | Project | Error (Warning if git-ignored) |
+| [`SB-SEC-003`](https://github.com/sorenbcoding/privacy-compliance-rules/blob/main/docs/rules/SB-SEC-003.md) | Personal data in log message | Activity | Error |
 
 Each rule's help link in Studio opens its page.
 

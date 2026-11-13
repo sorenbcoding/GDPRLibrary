@@ -16,6 +16,7 @@ namespace SorenB.Rules.Privacy
 
             workflowAnalyzerConfigService.AddRule(PinInCodeRule.Get());
             workflowAnalyzerConfigService.AddRule(ScreenshotsFolderRule.Get());
+            workflowAnalyzerConfigService.AddRule(LogMessagePersonalDataRule.Get());
         }
     }
 }

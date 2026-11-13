@@ -116,7 +116,7 @@ namespace SorenB.Rules.Privacy.Tests
             Assert.All(messages, AssertVoice);
         }
 
-        private static void AssertVoice(string message)
+        internal static void AssertVoice(string message)
         {
             Assert.DoesNotContain("!", message);
             Assert.EndsWith(".", message);
